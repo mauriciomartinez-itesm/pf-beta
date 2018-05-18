@@ -1,0 +1,169 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Posgrado Flexible</title>
+    <meta name="description" content="Posgrado Flexible" />
+    <!--MASTER A-FRAME-->
+    <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
+    <!--FONDO-->
+    <script src="https://unpkg.com/aframe-environment-component/dist/aframe-environment-component.min.js"></script>
+     <script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/v3.13.1/dist/aframe-extras.js"></script>
+    <!-- FÍSICA -->
+    <script src="//cdn.rawgit.com/donmccurdy/aframe-physics-system/v2.1.0/dist/aframe-physics-system.min.js"></script>
+    <!--TELEPORT -->
+    <script src="https://rawgit.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js"></script> 
+    <!--GLTF PART -->
+    <script src="https://unpkg.com/aframe-gltf-part-component/dist/aframe-gltf-part-component.min.js"></script>
+    <!--MOUSE CURSOR -->
+    <script src="https://rawgit.com/mayognaise/aframe-mouse-cursor-component/master/dist/aframe-mouse-cursor-component.min.js"></script>
+    <!--<script src="sticky-cursor.js"></script>-->
+    <script src="https://rawgit.com/wmurphyrd/aframe-super-hands-component/master/dist/super-hands.min.js"></script>
+
+
+    <!--SHAKE PARA CUANDO LE PEGAS AL VISOR-->
+    <script src="shake.js"></script>
+    
+    <link rel="stylesheet" href="styles.css">
+    
+    
+    
+<!--
+LIBRERIAS DE MOVILIDAD
+-->
+    
+    <!--VARIABLES-->
+    <script src="vars.js"></script>
+    <!--PRESIONA PARA CAMINAR-->
+    <!--<script src="tap-to-walk.js"></script>-->
+    <!--HABLA PARA CAMINAR --> <!--### No funciona con iOS ###-->
+    <!--<script src="talk-to-walk.js"></script>-->
+    <!--SHAKE PARA TELETRANSPORTAR-->
+    <script src="shake-to-teleport.js"></script>
+    <!--CLICK PARA TELETRANSPORTAR-->
+    <script src="tap-to-teleport.js"></script>
+    <!--PRRESIONAR PAD PARA TELETRANSPORTAR-->
+    <script src="pad-to-teleport.js"></script>
+    <!--DAYDREAM PAD PARA TELETRANSPORTAR-->
+    <script src="ax-to-teleport.js"></script>
+    <!--WASD PARA CAMINAR-->
+    <script src="wasd-controls-custom.js"></script>
+    <!--FÍSICA-->
+    <script src="physics-trigger.js"></script>
+    <!--Sonidos del teletransportador-->
+    <script src="teleport-sounds.js"></script>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="menu-teleport.js"></script>
+    <script src="poblar-super.js"></script>
+
+    <script src="raycaster-autorefresh.js"></script>
+    
+  </head>
+  <body>
+    
+  
+    
+    <a-scene>
+     
+      
+      
+      <!--CARGO LOS ASSETS ANTES DE QUE APAREZCA LA ESCENA-->
+      <a-assets>
+        
+        <a-asset-item id="vive-obj" src="assets/vr_controller_vive.obj"></a-asset-item>
+        <a-asset-item id="vive-mtl" src="assets/vr_controller_vive.mtl"></a-asset-item>
+
+        <a-asset-item id="daydream-obj" src="assets/vr_controller_daydream.obj"></a-asset-item>
+        <a-asset-item id="daydream-mtl" src="assets/vr_controller_daydream.mtl"></a-asset-item>
+        
+        <a-asset-item id="gearvr-obj" src="assets/gear_vr_controller.obj"></a-asset-item>
+        <a-asset-item id="gearvr-mtl" src="assets/gear_vr_controller.mtl"></a-asset-item>
+
+        <a-asset-item id="oculus-left-obj" src="assets/oculus-touch-controller-left.obj"></a-asset-item>
+        <a-asset-item id="oculus-left-mtl" src="assets/oculus-touch-controller-left.mtl"></a-asset-item>
+
+        <a-asset-item id="oculus-right-obj" src="assets/oculus-touch-controller-right.obj"></a-asset-item>
+        <a-asset-item id="oculus-right-mtl" src="assets/oculus-touch-controller-right.mtl"></a-asset-item>
+        
+        
+        <a-asset-item id="super-asset" src="/assets/super_vacio.gltf"></a-asset-item>
+        
+        <a-asset-item id="super-productos" src="/assets/super_productos.gltf"></a-asset-item>
+   
+     </a-assets>
+        
+      <!--OBJETOS CONTROLES -->
+      <a-entity obj-model="vive-controls: #vive-obj; mtl: #vive-mtl"></a-entity>  
+      <a-entity obj-model="daydream-controls: #daydream-obj; mtl: #daydream-mtl"></a-entity>  
+      <a-entity obj-model="gearvr-controls: #gearvr-obj; mtl: #gearvr-mtl"></a-entity>  
+      <a-entity obj-model="oculus-left-controls: #oculus-left-obj; mtl: #oculus-left-mtl"></a-entity>  
+      <a-entity obj-model="oculus-right-controls: #oculus-right-obj; mtl: #oculus-right-mtl"></a-entity>  
+      <!--ENVIRONMENT DEL COMPONENTE DE ENVIRONMENTS-->
+      <a-entity environment="preset: default; numDressing: 0; ground:flat; groundTexture:walkernoise"></a-entity>
+      
+      <!--UN PLANO PARA QUE PUEDAN COLISIONAR LOS OBJETOS CON EL PISO-->
+      <a-entity class="piso"><a-plane static-body position="0 -.1 0" rotation="-90 0 0" scale="100 100 100" material="color:red"></a-plane></a-entity>
+      
+      <!-- UNA CAJA PARA REVISAR LAS COLISIONES -->
+      
+      <a-entity id="super" gltf-model="#super-asset" scale="1 1 1"></a-entity>
+      
+       <!--<a-entity id="super" gltf-model="#super-productos" scale="1 1 1" position="0 0 0"></a-entity>
+      
+      
+      <a-entity gltf-part="src: #super-productos; part: leche-design" scale=".078 .078 .078" position="3.44495 0.901182 1.95499" rotation="0 90 0"></a-entity>
+      <a-entity gltf-part="src: #super-productos; part: platano_face" scale=".1 .1 .1"></a-entity>-->
+
+      
+      <a-entity id="player" tap-to-walk wasd-controls-custom>
+
+        <!-- CONTROL CON DAYDREAM DE GOOGLE (En el teléfono se tiene que bajar chrome beta y en chrome://flags habilitar webvr)-->
+      <a-entity daydream-controls
+        teleport-controls="cameraRig: #player"></a-entity>
+        <!-- Aún no se ha podido probar -->
+      <a-entity gearvr-controls
+        teleport-controls="cameraRig: #player"></a-entity>
+        
+      <a-entity id="dynamic_left_hand" vive-controls="hand: left" oculus-touch-controls="hand: left"  ></a-entity>
+      <a-entity id="dynamic_right_hand" vive-controls="hand: right" oculus-touch-controls="hand: right">
+        <!--Parabola de transportacion en el control de vive-->
+        <a-entity position="0 0 0"
+        pad-listener
+        ax-listener
+        teleport-controls="cameraRig: #player; teleportOrigin: #eye; startEvents:paddown; endEvents:padup ;collisionEntities: .piso; curveShootingSpeed:20; hitCylinderRadius:1;curveNumberPoints:60; defaultPlaneSize=:200">
+        </a-entity>
+      </a-entity>
+        
+        
+        
+        <a-camera raycaster="showLine: true; origin:-.01,0,0; near:0; far:2; objects:.clickable" line="color: red;" id="eyes" position="0 1.6 0" rotation="0 90 0" camera look-controls cursor wasd-controls="enabled:false" >
+          
+          <!--<a-entity id="texto" text="value:Posgrado Flexible Demo;align:center" position="0 -.3 -0.5"></a-entity>-->
+      
+         <!-- <a-plane position="0 .7 -1" material="transparent: true;  opacity: 0.5; color: #ffec04; shader:flat;"  scale="1 0.2 1"></a-plane>-->
+        <a-entity id="teleporter-mobile" position=".2 -.1 0"
+        shake-listener
+       click-listener
+        teleport-controls=
+                  "cameraRig: #player;
+                   teleportOrigin: #eye;
+                   startEvents:shakestart,clickstart;
+                   endEvents:shakeend,clickend;
+                   collisionEntities: .piso;
+                   curveShootingSpeed:15;
+                   hitCylinderRadius:1;"
+        >
+        </a-entity>
+            <a-plane visible="false" position="0 0 -.3" material="transparent: true;  opacity: 0.9; color: #000000; shader:flat;"  scale=".8 .4 1"></a-plane>
+        </a-camera>
+      </a-entity>
+
+      <a-entity light="type: ambient; color: #FFF; intensity:.8" position="-1 1 0"></a-entity>
+     
+      
+      
+    </a-scene>
+    
+    <!--Para revisar desde donde se está conectando-->
+    <script src="check-device.js"></script>
+  </body>
+</html>
