@@ -1,0 +1,36 @@
+.gui{
+  position:absolute;
+  z-index:1;
+  left:0%;
+  right:0%;
+}
+
+.ingui{
+  text-align:center;
+  color:white;
+  font-family:arial;
+  font-weight:600;
+}
+
+select{
+  padding:10px;
+  background-color:black;
+  color:white;
+  border:none;
+}
+
+.gui2{
+  position:absolute;
+  z-index:1;
+  left:0%;
+  right:0%;
+  top:0%;
+  bottom:0%;
+}
+
+.ingui2{
+  text-align:center;
+  color:white;
+  font-family:arial;
+  font-weight:600;
+}
